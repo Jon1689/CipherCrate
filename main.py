@@ -1,6 +1,4 @@
 """CipherCrate Main Program"""
-# Jon Greko
-# 10 April 2025
 
 ## MODULES ##
 from random import randint
@@ -35,7 +33,6 @@ GREEN = '\033[32m'
 RESET = '\033[0m'
 
 ## FUNCTIONS ##
-
 def print_banner():
     """Prints Program Banner"""
     print(r"""
@@ -79,9 +76,7 @@ def get_encryption_key(cipher_choice, message):
     print("Select key type:")
     print("1. Random")
     print("2. Personal")
-
     key_type = get_user_choice(">>> ", {1,2})
-
     if key_type == 1: #Random Key Generators
         if cipher_choice == 2: #Caesar Cipher Random Key
             return randint(1,26)
@@ -250,11 +245,8 @@ def main():
         7. Public Key Cipher
         8. Frequency Analysis
         """)
-
     cipher_choice = get_user_choice(">>> ", range(1,9))
-
     mode = None
-
     if cipher_choice == 1:
         handle_reverse()
     elif cipher_choice in range(2,7):
@@ -277,7 +269,6 @@ def main():
         print("NOT YET IMPLEMENTED")
     elif cipher_choice == 8:
         handle_freq_analysis()
-
     restart = input("Would you like to run the program again?:\n1. Re-run\n2. Close Program\n>>> ")
     if restart == "1":
         main()
