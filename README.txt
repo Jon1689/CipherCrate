@@ -27,7 +27,6 @@ CipherCrate/
 │   └── dictionary.txt
 │
 ├── ciphers/
-│   ├── __init__.py
 │   ├── reverse_cipher.py
 │   ├── caesar_cipher.py
 │   ├── transposition_cipher.py
