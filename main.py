@@ -2,6 +2,7 @@
 
 ## MODULES ##
 from random import randint
+import sys
 from pyperclip import copy
 from ciphers.reverse_cipher import reverse_cipher
 from ciphers.caesar_cipher import caesar_cipher, caesar_hacker
@@ -28,6 +29,7 @@ from utils.frequency_analysis import (english_freq_match_score,
                                 get_frequency_order)
 
 ## CONSTANTS ##
+# Used for coloring text in terminal
 RED = '\033[31m'
 GREEN = '\033[32m'
 ORANGE = "\033[38;5;208m"
@@ -41,11 +43,11 @@ def print_banner():
     print(rf"""{ORANGE}
 #########################################################
 #{RESET}  ____ _       _                ____           _       {ORANGE}#
-# {RESET}/ ___(_)_ __ | |__   ___ _ __ / ___|_ __ __ _| |_ ___ {ORANGE}#
+#{RESET} / ___(_)_ __ | |__   ___ _ __ / ___|_ __ __ _| |_ ___ {ORANGE}#
 #{RESET}| |   | | '_ \| '_ \ / _ \ '__| |   | '__/ _` | __/ _ \{ORANGE}#
 #{RESET}| |___| | |_) | | | |  __/ |  | |___| | | (_| | ||  __/{ORANGE}#
-# {RESET}\____|_| .__/|_| |_|\___|_|   \____|_|  \__,_|\__\___|{ORANGE}#
-# {RESET}       |_|                                            {ORANGE}#
+#{RESET} \____|_| .__/|_| |_|\___|_|   \____|_|  \__,_|\__\___|{ORANGE}#
+#{RESET}        |_|                                            {ORANGE}#
 #########################################################
 {RESET}""")
 
@@ -140,10 +142,11 @@ def get_encryption_key(cipher_choice, message):
 def handle_caesar(mode):
     """Runs Caesar Cipher"""
     message = input(f"{RESET}Enter your message:\n{TEAL}>>> ")
+    # Get encryption key if the user wants to encrypt or decrypt
     key = get_encryption_key(2, message) if mode in (1,2) else None
-    if mode == 3:
+    if mode == 3: # Hack Mode
         output, key = caesar_hacker(message)
-    else:
+    else: # Encrypt/Decrypt Mode
         cipher_mode = "E" if mode == 1 else "D"
         output = caesar_cipher(message, key, cipher_mode)
     print(f"{GREEN}{output}{RESET}\n{MAGENTA}--###--COPIED TO CLIPBOARD--###--{RESET}")
@@ -160,13 +163,14 @@ def handle_reverse():
 def handle_transposition(mode):  #TODO: Fix case sensitivity
     """Runs Transposition Cipher"""
     message = input(f"{RESET}Enter your message here:\n{TEAL}>>> ")
+    # Get encryption key if the user wants to encrypt or decrypt
     key = get_encryption_key(3, message) if mode in range(1,3) else None
     output = ""
-    if mode == 3:
+    if mode == 3: # Hack Mode
         output, key = transpo_hack(message)
-    elif mode == 1:
+    elif mode == 1: # Encrypt Mode
         output = transpo_encrypt(message, key)
-    elif mode == 2:
+    elif mode == 2: # Decrypt Mode
         output = transpo_decrypt(message, key)
     print(f"{GREEN}{output}{RESET}\n{MAGENTA}--###--COPIED TO CLIPBOARD-###-{RESET}")
     copy(output)
@@ -175,12 +179,13 @@ def handle_transposition(mode):  #TODO: Fix case sensitivity
 def handle_affine(mode):
     """Runs Affine Cipher"""
     message = input(f"{RESET}Enter your message here:\n{TEAL}>>> ")
+    # Get encryption key if the user wants to encrypt or decrypt
     key = get_encryption_key(4, message) if mode in range(1,3) else None
-    if mode == 3:
+    if mode == 3: # Hack Mode
         output, key = affine_hack(message)
-    elif mode == 1:
+    elif mode == 1: # Encrypt Mode
         output = affine_encrypt(message, key)
-    elif mode == 2:
+    elif mode == 2: # Decrypt Mode
         output = affine_decrypt(message, key)
     else:
         print(f"{RED}Invalid mode selected{RESET}")
@@ -191,7 +196,7 @@ def handle_affine(mode):
 
 def handle_simple(mode):
     """Runs Simple Substitution Cipher"""
-    if mode == 3:
+    if mode == 3: # Hack Mode
         message = input(f"{RESET}Enter your encrypted message to hack:\n{TEAL}>>> ")
         mapping = hack_simple(message)
         decrypted = decrypt_with_cipherletter_mapping(message, mapping)
@@ -209,7 +214,7 @@ def handle_simple(mode):
 
 def handle_vigenere(mode):
     """Runs Vigenere Cipher"""
-    if mode == 3:
+    if mode == 3: # Hack Mode
         message = input(f"{RESET}Enter your encrypted message to hack:\n{TEAL}>>> ")
         decrypted, key = hack_vigenere(message)
         print(f"{GREEN}{decrypted}{RESET}\n{MAGENTA}--###--COPIED TO CLIPBOARD--###--{RESET}")
@@ -218,9 +223,9 @@ def handle_vigenere(mode):
     message = input(f"{RESET}Enter your message here:\n{TEAL}>>> ")
     key = get_encryption_key(6, message)
     output = ""
-    if mode == 1:
+    if mode == 1: # Encrypt Mode
         output = vigenere_encrypt(message, key)
-    elif mode == 2:
+    elif mode == 2: # Decrypt Mode
         output = vigenere_decrypt(message, key)
     print(f"{GREEN}{output}{RESET}\n{MAGENTA}--###--COPIED TO CLIPBOARD--###--{RESET}")
     copy(output)
@@ -233,6 +238,7 @@ def handle_freq_analysis():
     letter_count = get_letter_count(message)
     freq_order = get_frequency_order(message)
     print(f"{RESET}The frequency order of your sentense is: {GREEN}{freq_order}{RESET}")
+    # Does not print letters with a count of 0
     for key, value in letter_count.items():
         if value == 0:
             continue
@@ -241,6 +247,7 @@ def handle_freq_analysis():
 
 def main():
     """MAIN FUNCTION"""
+    # Main Menu
     print(f"{ORANGE}Choose a cipher:")
     print(f"""
         [{RESET}1{ORANGE}] Reverse Cipher
@@ -254,10 +261,10 @@ def main():
         """)
     cipher_choice = get_user_choice(f"{TEAL}>>> ", range(1,9))
     mode = None
-    if cipher_choice == 1:
+    if cipher_choice == 1: # Reverse Cipher
         print(get_cipher_name(cipher_choice))
         handle_reverse()
-    elif cipher_choice in range(2,7):
+    elif cipher_choice in range(2,7): # All other ciphers
         print(get_cipher_name(cipher_choice))
         print(f"\n{ORANGE}Select Mode:")
         print(f"""
@@ -276,20 +283,29 @@ def main():
             handle_simple(mode)
         elif cipher_choice == 6:
             handle_vigenere(mode)
-    elif cipher_choice == 7:
+    elif cipher_choice == 7: # Public Key Cipher
         print(f"{ORANGE}Select Mode:\n[{RESET}1{ORANGE}] Encrypt\n[{RESET}2{ORANGE}] Decrypt\n[{RESET}3{ORANGE}] Generate Keys")
         mode = get_user_choice(f"{TEAL}>>> ", {1,2,3})
         print("NOT YET IMPLEMENTED")
-    elif cipher_choice == 8:
+    elif cipher_choice == 8: # Frequency Analysis
         handle_freq_analysis()
+    # Return to Main Menu Option
     print(f"\n{ORANGE}Re-Run Program?")
     print(f"""
         [{RESET}1{ORANGE}] Re-Run
         [{RESET}2{ORANGE}] Close Program
         """)
-    restart = input(f"{TEAL}>>> ")
+    while True:
+        restart = input(f"{TEAL}>>> ")
+        if restart in ("1", "2"):
+            break
+        print(f"{RED}Invalid choice. Please try again.{RESET}")
+    print(f"{RESET}")
     if restart == "1":
         main()
+    elif restart == "2":
+        print(f"{ORANGE}Goodbye!\n{RESET}")
+        sys.exit()
 
 if __name__ == "__main__":
     print_banner()
