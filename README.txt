@@ -27,6 +27,7 @@ CipherCrate/
 │   └── dictionary.txt
 │
 ├── ciphers/
+|   ├── __init__.py
 │   ├── reverse_cipher.py
 │   ├── caesar_cipher.py
 │   ├── transposition_cipher.py
@@ -35,8 +36,9 @@ CipherCrate/
 │   └── vigenere_cipher.py
 │
 └── utils/
-    └── detect_english.py 
-    └── file_loader.py
+    ├── __init__.py
+    ├── detect_english.py 
+    ├── file_loader.py
     └── frequency_analysis.py
 
 ---
