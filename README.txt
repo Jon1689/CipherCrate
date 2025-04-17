@@ -6,11 +6,14 @@ CipherCrate is a Python-based cipher suite that includes multiple encryption and
 
 ## 📦 Features
 
+- **Reverse Cipher**: A cipher that reverses the order of characters in the plaintext to produce the ciphertext.
 - **Caesar Cipher**: A simple substitution cipher where each letter in the plaintext is shifted by a specified number.
-- **Vigenère Cipher**: A more complex cipher that uses a keyword to shift each letter of the plaintext in a cyclical manner.
 - **Transposition Cipher**: Encrypts by rearranging the letters in a specific pattern.
 - **Affine Cipher**: A substitution cipher based on mathematical functions.
 - **Simple Substitution Cipher**: A cipher where each letter is substituted with another letter based on a fixed mapping.
+- **Vigenère Cipher**: A more complex cipher that uses a keyword to shift each letter of the plaintext in a cyclical manner.
+- **Public Key Cipher**: A cryptographic system that uses a pair of keys (public and private) for secure communication.
+- **Frequency Analysis**: A technique to analyze the frequency of letters or patterns in ciphertext to break ciphers.
 - **Cryptanalysis**: Includes basic hacking functionality for certain ciphers using dictionary-based methods.
 
 ---
