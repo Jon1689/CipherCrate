@@ -3,6 +3,7 @@
 ## MODULES ##
 from random import randint
 import sys
+import os
 from pyperclip import copy
 from ciphers.reverse_cipher import reverse_cipher
 from ciphers.caesar_cipher import caesar_cipher, caesar_hacker
@@ -24,9 +25,12 @@ from ciphers.vigenere_cipher import (vigenere_encrypt,
                             vigenere_decrypt,
                             hack_vigenere,
                             vigenere_get_random_key)
+from ciphers.public_key_cipher import (encrypt_and_write_to_file, 
+                                read_from_file_and_decrypt)
 from utils.frequency_analysis import (english_freq_match_score,
                                 get_letter_count,
                                 get_frequency_order)
+from utils.make_public_private_key import make_key_files
 
 ## CONSTANTS ##
 # Constants for color codes
@@ -248,6 +252,51 @@ def handle_freq_analysis():
         print(f"{RESET}Letter: {GREEN}{key}{RESET} | Frequency: {GREEN}{value}{RESET}")
     print(f"{RESET}Your match score is {GREEN}{match_score}{RESET}.")
 
+def handle_public_key(mode):
+    """Runs Public Key Cipher"""
+    while True:
+        filename = input(f"{ORANGE}Enter the name to save to or read from the encrypted file (e.g., example_encrypted.txt):\n{TEAL}>>> ").strip()
+        if filename == '':
+            print(f"{RED}Please enter a valid file name ending with .txt{RESET}")
+        elif not filename.endswith('.txt'):
+            print(f"{RED}Please enter a valid file name ending with .txt{RESET}")
+        else:
+            break
+    if mode == 'encrypt':
+        message = input(f'{ORANGE}Enter the message to encrypt:\n{TEAL}>>> ')
+        while True:
+            public_key_filename = input(f'{ORANGE}Enter the public key filename (e.g., example_pubkey.txt):\n{TEAL}>>> ').strip() 
+            if os.path.exists(f"keys/{public_key_filename}"):
+                break
+            else:
+                print(f"{RED}Public key file not found. Please enter a valid file name.{RESET}")
+        print(f'{ORANGE}Encrypting and writing to {filename}...{RESET}')
+        encrypted_text = encrypt_and_write_to_file(filename, public_key_filename, message)
+        print(f'{ORANGE}Encrypted text:{RESET}')
+        print(f'{GREEN}{encrypted_text}{RESET}')
+    elif mode == 'decrypt':
+        while True:
+            priv_key_filename = input(f'{ORANGE}Enter the private key filename (e.g., example_privkey.txt):\n{TEAL}>>> ').strip()
+            if os.path.exists(f"keys/{priv_key_filename}"):
+                break
+            else:
+                print(f"{RED}Private key file not found. Please enter a valid file name.{RESET}")
+        print(f'{ORANGE}Reading from {filename} and decrypting...{RESET}')
+        decrypted_text = read_from_file_and_decrypt(filename, priv_key_filename)
+        print(f'{ORANGE}Decrypted text:{RESET}')
+        print(f'{GREEN}{decrypted_text}{RESET}')
+
+def generate_public_keys():
+    """Generates Public and Private Keys"""
+    while True:
+        name = input(f"{ORANGE}Enter name for each key files (e.g., (name)_pubkey.txt, (name)_privkey.txt):\n{TEAL}>>> ")
+        if os.path.exists(f"keys/{name}_pubkey.txt") or os.path.exists(f"keys/{name}_privkey.txt"):
+            print(f"{RED}Key names already exists. Choose a different name{RESET}")
+        break
+    print(f"{ORANGE}Making key files...{RESET}")
+    make_key_files(f'{name}', 1024) # Generate Public and Private Keys
+    print(f"{ORANGE}Key files made.{RESET}")
+
 def main():
     """MAIN FUNCTION"""
     # Main Menu
@@ -296,13 +345,18 @@ def main():
         print(f"""
             [{RESET}1{ORANGE}] Encrypt
             [{RESET}2{ORANGE}] Decrypt
-            [{RESET}3{ORANGE}] Hack
+            [{RESET}3{ORANGE}] Generate Keys
             [{RESET}4{ORANGE}] Return to Main Menu""")
         mode = get_user_choice(f"{TEAL}>>> ", {1,2,3,4})
         if mode == 4: # Return to Main Menu
             print(f"{ORANGE}Returning to Main Menu...{RESET}")
             main()
-        print("NOT YET IMPLEMENTED")
+        elif mode == 1:
+            handle_public_key('encrypt')
+        elif mode == 2:
+            handle_public_key('decrypt')
+        else:
+            generate_public_keys()
     elif cipher_choice == 8:
         handle_freq_analysis() # Run Frequency Analysis
     elif cipher_choice == 9: # Quits Program

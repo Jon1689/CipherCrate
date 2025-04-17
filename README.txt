@@ -34,15 +34,23 @@ CipherCrate/
 │   ├── reverse_cipher.py
 │   ├── caesar_cipher.py
 │   ├── transposition_cipher.py
+│   ├── public_key_cipher.py
 │   ├── affine_cipher.py
 │   ├── simple_sub.py
 │   └── vigenere_cipher.py
+|
+├── keys/ ## PUBLIC KEYS SAVED HERE ##
+|
+├── encryptions/ ## PUBLIC KEY ENCRYPTIONS SAVED HERE ##
 │
 └── utils/
     ├── __init__.py
+    ├── cryptiomath.py 
     ├── detect_english.py 
     ├── file_loader.py
-    └── frequency_analysis.py
+    ├── frequency_analysis.py
+    ├── make_public_private_keys.py
+    └── prime_num.py
 
 ---
 
