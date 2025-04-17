@@ -7,7 +7,7 @@ import os
 
 ## CONSTANTS ##
 SYMBOLS = ('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 '
-            '!?.@#$%^&*()-_=+[]}{|;:",<>/~`\\\'')
+            '!?.@#$%^&*()-_=+[]}{|;:",—’<>/~`\\\'')
 
 ## FUNCTIONS ##
 def main():
