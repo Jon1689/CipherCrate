@@ -74,6 +74,53 @@ def get_cipher_name(cipher_choice):
     elif cipher_choice == 1:
         return f"\n{ORANGE}--###--Reverse Cipher--###--{RESET}"
 
+def get_cipher_description(cipher_choice):
+    """Returns a decription of the cipher"""
+    if cipher_choice == 1:
+        return (f"""{ORANGE}
+    The Reverse cipher is a simple cipher that reverses the
+    order of the letters in the plaintext.
+                {RESET}""")
+    elif cipher_choice == 2:
+        return (f"""{ORANGE}
+    The Caesar cipher is a type of substitution cipher in
+    which each letter in the plaintext is shifted a certain number of
+    places down or up the alphabet.
+                {RESET}""")
+    elif cipher_choice == 3:
+        return (f"""{ORANGE}
+    The Transposition cipher is a method of encryption where
+    the positions of the letters are shifted according to a regular system.
+                {RESET}""")
+    elif cipher_choice == 4:
+        return (f"""{ORANGE}
+    The Affine cipher is a type of monoalphabetic substitution
+    cipher, where each letter in an alphabet is mapped to its numeric
+    equivalent, encrypted using a simple mathematical function, and converted
+    back to a letter.
+                {RESET}""")
+    elif cipher_choice == 5:
+        return (f"""{ORANGE}
+    The Simple Substitution cipher is a method of encryption
+    where each letter in the plaintext is replaced with another letter.
+                {RESET}""")
+    elif cipher_choice == 6:
+        return (f"""{ORANGE}
+    The Vigenere cipher is a method of encrypting alphabetic
+    text by using a simple form of polyalphabetic substitution.
+                {RESET}""")
+    elif cipher_choice == 7:
+        return (f"""{ORANGE}
+    The Public Key cipher is a method of encrypting messages
+    using a pair of keys: a public key for encryption and a private key
+    for decryption.
+                {RESET}""")
+    elif cipher_choice == 8:
+        return (f"""{ORANGE}
+    The Frequency Analysis is a method of breaking ciphers
+    by studying the frequency of letters or groups of letters in a ciphertext.
+                {RESET}""")
+
 def get_user_choice(prompt, options):
     """
     Function to get user choice.
@@ -107,19 +154,19 @@ def get_encryption_key(cipher_choice, message):
     else: #Personal Key Prompts
         if cipher_choice == 2: #Caesar Cipher Personal Key
             while True:
-                key = input(f"{RESET}Enter a number between 1-26:\n{TEAL}>>> ")
+                key = input(f"{ORANGE}Enter a number between 1-26:\n{TEAL}>>> ")
                 if key.isdigit() and 1 <= int(key) <= 26:
                     return int(key)
                 print(f"{RED}Invalid key. Must be a number from 1 to 26.{RESET}")
         elif cipher_choice == 3: #Transposition Cipher Personal Key
             while True:
-                key = input(f"{RESET}Enter a number between 2 and {(len(message) // 2)}:\n{TEAL}>>> ")
+                key = input(f"{ORANGE}Enter a number between 2 and {(len(message) // 2)}:\n{TEAL}>>> ")
                 if key.isdigit() and 1 < int(key) <= (len(message) // 2):
                     return int(key)
                 print(f"{RED}Invalid key. Must be a number from 2 to {len(message) // 2}.{RESET}")
         elif cipher_choice == 4: #Affine Cipher Personal Key
             while True:
-                key_input = input(f"{RESET}Enter a numeric key (will be split into A and B):\n{TEAL}>>> ")
+                key_input = input(f"{ORANGE}Enter a numeric key (will be split into A and B):\n{TEAL}>>> ")
                 if key_input.isdigit():
                     key = int(key_input)
                     key_a, key_b = get_key_parts(key)
@@ -132,14 +179,14 @@ def get_encryption_key(cipher_choice, message):
                     print(f"{RED}Invalid key. Must be a numeric value.{RESET}")
         elif cipher_choice == 5: #Simple Substitution Cipher Personal Key
             while True:
-                key_input = input(f"{RESET}Enter a alphabetic key:\n{TEAL}>>> ")
+                key_input = input(f"{ORANGE}Enter a alphabetic key:\n{TEAL}>>> ")
                 if key_is_valid(key_input):
                     return key_input.upper()
                 else:
                     print(f"{RED}Please enter a proper key. Must include all 26 letters of the alphabet.{RESET}")
         elif cipher_choice == 6: #Vigenere Cipher Personal Key
             while True:
-                key = input(f"{RESET}Enter the key you would like to use here:\n{TEAL}>>> ")
+                key = input(f"{ORANGE}Enter the key you would like to use here:\n{TEAL}>>> ")
                 if key.isalpha() and len(key) < len(message):
                     break
                 else:
@@ -148,7 +195,7 @@ def get_encryption_key(cipher_choice, message):
 
 def handle_caesar(mode):
     """Runs Caesar Cipher"""
-    message = input(f"{RESET}Enter your message:\n{TEAL}>>> ")
+    message = input(f"{ORANGE}Enter your message:\n{TEAL}>>> ")
     # Get encryption key if the user wants to encrypt or decrypt
     key = get_encryption_key(2, message) if mode in (1,2) else None
     if mode == 3: # Hack Mode
@@ -162,18 +209,19 @@ def handle_caesar(mode):
 
 def handle_reverse():
     """Runs Reverse Cipher"""
-    message = input(f"{RESET}Enter your message:\n{TEAL}>>> ")
+    message = input(f"{ORANGE}Enter your message:\n{TEAL}>>> ")
     output = reverse_cipher(message)
     copy(output) # Copy encrypted/decrypted message to clipboard
     print(f"{GREEN}{output}{RESET}\n{MAGENTA}--###--COPIED TO CLIPBOARD-###-{RESET}")
 
 def handle_transposition(mode):
     """Runs Transposition Cipher"""
-    message = input(f"{RESET}Enter your message here:\n{TEAL}>>> ")
+    message = input(f"{ORANGE}Enter your message here:\n{TEAL}>>> ")
     # Get encryption key if the user wants to encrypt or decrypt
     key = get_encryption_key(3, message) if mode in range(1,3) else None
     output = ""
     if mode == 3: # Hack Mode
+        print(f"{ORANGE}Hacking...{RESET}")
         output, key = transpo_hack(message)
     elif mode == 1: # Encrypt Mode
         output = transpo_encrypt(message, key)
@@ -185,10 +233,11 @@ def handle_transposition(mode):
 
 def handle_affine(mode):
     """Runs Affine Cipher"""
-    message = input(f"{RESET}Enter your message here:\n{TEAL}>>> ")
+    message = input(f"{ORANGE}Enter your message here:\n{TEAL}>>> ")
     # Get encryption key if the user wants to encrypt or decrypt
     key = get_encryption_key(4, message) if mode in range(1,3) else None
     if mode == 3: # Hack Mode
+        print(f"{ORANGE}Hacking...{RESET}")
         output, key = affine_hack(message)
     elif mode == 1: # Encrypt Mode
         output = affine_encrypt(message, key)
@@ -204,13 +253,14 @@ def handle_affine(mode):
 def handle_simple(mode):
     """Runs Simple Substitution Cipher"""
     if mode == 3: # Hack Mode
-        message = input(f"{RESET}Enter your encrypted message to hack:\n{TEAL}>>> ")
+        message = input(f"{ORANGE}Enter your encrypted message to hack:\n{TEAL}>>> ")
+        print(f"{ORANGE}Hacking...{RESET}")
         mapping = hack_simple(message) # Returns the mapping
         decrypted = decrypt_with_cipherletter_mapping(message, mapping) # Decrypts the message
         print(f"{GREEN}{decrypted}{RESET}\n{MAGENTA}--###--COPIED TO CLIPBOARD--###--{RESET}")
         copy(decrypted) # Copy hacked message to clipboard
         return
-    message = input(f"{RESET}Enter your message here:\n{TEAL}>>> ")
+    message = input(f"{ORANGE}Enter your message here:\n{TEAL}>>> ")
     key = get_encryption_key(5, message)
     mode_str = "encrypt" if mode == 1 else "decrypt" # Converts mode to string
     output = simple_substitution(message, key, mode_str)
@@ -222,12 +272,13 @@ def handle_simple(mode):
 def handle_vigenere(mode):
     """Runs Vigenere Cipher"""
     if mode == 3: # Hack Mode
-        message = input(f"{RESET}Enter your encrypted message to hack:\n{TEAL}>>> ")
+        message = input(f"{ORANGE}Enter your encrypted message to hack:\n{TEAL}>>> ")
+        print(f"{ORANGE}Hacking...{RESET}")
         decrypted, key = hack_vigenere(message)
         print(f"{GREEN}{decrypted}{RESET}\n{MAGENTA}--###--COPIED TO CLIPBOARD--###--{RESET}")
         copy(decrypted) # Copy hacked message to clipboard
         return
-    message = input(f"{RESET}Enter your message here:\n{TEAL}>>> ")
+    message = input(f"{ORANGE}Enter your message here:\n{TEAL}>>> ")
     key = get_encryption_key(6, message)
     output = ""
     if mode == 1: # Encrypt Mode
@@ -240,17 +291,18 @@ def handle_vigenere(mode):
 
 def handle_freq_analysis():
     """Runs Frequency Analysis"""
-    message = input(f"{RESET}Please input english sentence to analyze here:\n{TEAL}>>> ")
+    message = input(f"{ORANGE}Please input english sentence to analyze here:\n{TEAL}>>> ")
     match_score = english_freq_match_score(message) # Returns the match score
     letter_count = get_letter_count(message) # Returns the letter count
     freq_order = get_frequency_order(message) # Returns the frequency order
-    print(f"{RESET}The frequency order of your sentense is: {GREEN}{freq_order}{RESET}")
+    print(f"{ORANGE}The frequency order of your sentense is: {GREEN}{freq_order}{RESET}")
     # Does not print letters with a count of 0
     for key, value in letter_count.items():
         if value == 0:
             continue
-        print(f"{RESET}Letter: {GREEN}{key}{RESET} | Frequency: {GREEN}{value}{RESET}")
-    print(f"{RESET}Your match score is {GREEN}{match_score}{RESET}.")
+        print(f"{ORANGE}Letter: {GREEN}{key}{ORANGE} | Frequency: {GREEN}{value}{RESET}")
+    print(f"{ORANGE}Match Scores is graded on a scale from 1 to 12, with 12 being the most like english.{RESET}")
+    print(f"{ORANGE}Your match score is {GREEN}{match_score}{RESET}.")
 
 def handle_public_key(mode):
     """Runs Public Key Cipher"""
@@ -302,29 +354,31 @@ def main():
     # Main Menu
     print(f"{ORANGE}Choose a cipher:") # Prompt for cipher choice
     print(f"""
-        [{RESET}1{ORANGE}] Reverse Cipher
-        [{RESET}2{ORANGE}] Caesar Cipher
-        [{RESET}3{ORANGE}] Transpositional Cipher
-        [{RESET}4{ORANGE}] Affine Cipher
-        [{RESET}5{ORANGE}] Simple Substitution Cipher
-        [{RESET}6{ORANGE}] Vigenere Cipher
-        [{RESET}7{ORANGE}] Public Key Cipher
-        [{RESET}8{ORANGE}] Frequency Analysis
-        [{RESET}9{ORANGE}] Exit
+    [{RESET}1{ORANGE}] Reverse Cipher
+    [{RESET}2{ORANGE}] Caesar Cipher
+    [{RESET}3{ORANGE}] Transpositional Cipher
+    [{RESET}4{ORANGE}] Affine Cipher
+    [{RESET}5{ORANGE}] Simple Substitution Cipher
+    [{RESET}6{ORANGE}] Vigenere Cipher
+    [{RESET}7{ORANGE}] Public Key Cipher
+    [{RESET}8{ORANGE}] Frequency Analysis
+    [{RESET}9{ORANGE}] Exit
         """)
     cipher_choice = get_user_choice(f"{TEAL}>>> ", range(1,10))
     mode = None # Initialize mode
     if cipher_choice == 1: # Reverse Cipher
         print(get_cipher_name(cipher_choice)) # Print Cipher Name
+        print(get_cipher_description(cipher_choice)) # Print Cipher Description
         handle_reverse() # Run Reverse Cipher
     elif cipher_choice in range(2,7): # All other ciphers
         print(get_cipher_name(cipher_choice)) # Print Cipher Name
-        print(f"\n{ORANGE}Select Mode:") # Select Mode
+        print(get_cipher_description(cipher_choice)) # Print Cipher Description
+        print(f"{ORANGE}Select Mode:") # Select Mode
         print(f"""
-            [{RESET}1{ORANGE}] Encrypt
-            [{RESET}2{ORANGE}] Decrypt
-            [{RESET}3{ORANGE}] Hack
-            [{RESET}4{ORANGE}] Return to Main Menu
+    [{RESET}1{ORANGE}] Encrypt
+    [{RESET}2{ORANGE}] Decrypt
+    [{RESET}3{ORANGE}] Hack
+    [{RESET}4{ORANGE}] Return to Main Menu
             """)
         mode = get_user_choice(f"{TEAL}>>> ", {1,2,3,4})
         if mode == 4: # Return to Main Menu
@@ -341,12 +395,14 @@ def main():
         elif cipher_choice == 6:
             handle_vigenere(mode) # Run Vigenere Cipher
     elif cipher_choice == 7: # Public Key Cipher
+        print(get_cipher_name(cipher_choice))
+        print(get_cipher_description(cipher_choice)) # Print Cipher Description
         print(f"{ORANGE}Select Mode:") # Select Mode
         print(f"""
-            [{RESET}1{ORANGE}] Encrypt
-            [{RESET}2{ORANGE}] Decrypt
-            [{RESET}3{ORANGE}] Generate Keys
-            [{RESET}4{ORANGE}] Return to Main Menu""")
+    [{RESET}1{ORANGE}] Encrypt
+    [{RESET}2{ORANGE}] Decrypt
+    [{RESET}3{ORANGE}] Generate Keys
+    [{RESET}4{ORANGE}] Return to Main Menu""")
         mode = get_user_choice(f"{TEAL}>>> ", {1,2,3,4})
         if mode == 4: # Return to Main Menu
             print(f"{ORANGE}Returning to Main Menu...{RESET}")
@@ -358,6 +414,8 @@ def main():
         else:
             generate_public_keys()
     elif cipher_choice == 8:
+        print(get_cipher_name(cipher_choice)) # Print Cipher Name
+        print(get_cipher_description(cipher_choice)) # Print Cipher Description
         handle_freq_analysis() # Run Frequency Analysis
     elif cipher_choice == 9: # Quits Program
         print(f"{ORANGE}Goodbye{RESET}")

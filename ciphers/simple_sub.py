@@ -105,7 +105,7 @@ def simple_substitution(message, key, mode):
             if symbol.isupper():
                 translated += chars_b[sym_index].upper()
             else:
-                translated += chars_b[sym_index].upper()
+                translated += chars_b[sym_index].lower()
         else:
             translated += symbol
     return translated
