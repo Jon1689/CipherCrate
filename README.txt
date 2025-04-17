@@ -40,8 +40,11 @@ CipherCrate/
 │   └── vigenere_cipher.py
 |
 ├── keys/ ## PUBLIC KEYS SAVED HERE ##
+|   ├── example_privkey.txt
+│   └── example_pubkey.txt
 |
 ├── encryptions/ ## PUBLIC KEY ENCRYPTIONS SAVED HERE ##
+│   └── example_encrypted.txt
 │
 └── utils/
     ├── __init__.py
