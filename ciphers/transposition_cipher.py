@@ -38,7 +38,7 @@ def transpo_decrypt(message, key):
         row += 1
 
         if row == num_rows or (row == num_rows - 1 and
-                               col >= num_columns - num_shaded_boxes):
+                            col >= num_columns - num_shaded_boxes):
             row = 0
             col += 1
 
@@ -54,7 +54,7 @@ def transpo_hack(message):
     for key in range(1, len(message)):
         answer = transpo_decrypt(message, key)
         words = answer.split()
-        matches = sum(1 for word in words if word.lower() in WORDS)
+        matches = sum(1 for word in words if word in WORDS or word.lower() in WORDS)
         if matches > best_score:
             best_score = matches
             best_key = key
