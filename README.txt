@@ -62,6 +62,6 @@ CipherCrate/
 To use CipherCrate, clone this repository and install the required dependencies:
 
 ```bash
-git clone https://github.com/yourusername/CipherCrate.git
+git clone https://github.com/Jon1689/CipherCrate.git
 cd CipherCrate
 pip install -r requirements.txt
